@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <title>Autores</title>
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="mainEditorial.html">
+                    Editorial
+                </a>
+                <a class="navbar-item" href="mainGenero.html">
+                    Género
+                </a>
+                <a class="navbar-item" href="mainAutr.html">
+                    Autor
+                </a>
+                <a class="navbar-item" href="mainLibro.html">
+                    Libro
+                </a>
+
+            </div>
+
+            <div class="navbar-end">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                <form method="post" onsubmit="handleSubmit(event);">
+                    <br>
+                    <br>
+                    <label for="" class="label is-size-3" align="center">Autores</label>
+                    <br>
+                    <div class="buttons">
+                        <a class="button is-info is-light" href="autor.html">
+                            <strong>Registrar</strong>
+                        </a>
+                    </div>
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Nacionalidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo">
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function make_req() {
+            let req = new XMLHttpRequest();
+            req.open("GET", "http://localhost:5000/consultaAutores");
+
+            req.onload = function () {
+                let arrayBuffer = JSON.parse(req.response);
+
+                autores = arrayBuffer.autores;
+                tableAutores = document.querySelector("#cuerpo");
+
+                printTableAutores(autores, tableAutores);
+
+                function printTableAutores(obj, sel) {
+                    Object.values(obj).forEach((element) => {
+                        let celda = document.createElement("tr");
+                        let columna1 = document.createElement("td");
+                        let columna2 = document.createElement("td");
+                        let columna3 = document.createElement("td");
+                        let columna4 = document.createElement("td");
+                        columna1.innerText = element.id_autor;
+                        columna2.innerText = element.nombre_autor;
+                        columna3.innerText = element.fecha_nacimiento;
+                        columna4.innerText = element.nacionalidad;
+
+                        sel.appendChild(celda)
+                        sel.appendChild(columna1)
+                        sel.appendChild(columna2)
+                        sel.appendChild(columna3)
+                        sel.appendChild(columna4)
+
+                    });
+                }
+            }
+            req.send(null);
+        }
+        make_req();
+    </script>
+</body>
+
+</html>

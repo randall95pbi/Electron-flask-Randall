@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <title>Editoriales</title>
+</head>
+
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="mainEditorial.html">
+                    Editorial
+                </a>
+                <a class="navbar-item" href="mainGenero.html">
+                    Género
+                </a>
+                <a class="navbar-item" href="mainAutor.html">
+                    Autor
+                </a>
+                <a class="navbar-item" href="mainLibro.html">
+                    Libro
+                </a>
+            </div>
+
+            <div class="navbar-end">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                <form method="post">
+                    <br>
+                    <br>
+                    <label for="" class="label is-size-3" align="center">Editoriales</label>
+                    <br>
+                    <div class="buttons">
+                        <a class="button is-info is-light" href="editorial.html">
+                            <strong>Registrar</strong>
+                        </a>
+                    </div>
+                    <table class="table is-fullwidth" align="center">
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo">
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function make_req() {
+            let req = new XMLHttpRequest();
+            req.open("GET", "http://localhost:5000/consultaEditoriales");
+
+            req.onload = function () {
+                let arrayBuffer = JSON.parse(req.response);
+
+                editoriales = arrayBuffer.editoriales;
+                tableEditorial = document.querySelector("#cuerpo");
+
+                printTableEditorial(editoriales, tableEditorial);
+
+                function printTableEditorial(obj, sel) {
+                    Object.values(obj).forEach((element) => {
+                        let celda = document.createElement("tr");
+                        let columna1 = document.createElement("td");
+                        let columna2 = document.createElement("td");
+
+                        columna1.innerText = element.id_editorial;
+                        columna2.innerText = element.nombre_editorial;
+                        
+                        sel.appendChild(celda)
+                        sel.appendChild(columna1)
+                        sel.appendChild(columna2)
+                    });
+                }
+            }
+            req.send(null);
+        }
+        make_req();
+    </script>
+</body>
+
+</html>
